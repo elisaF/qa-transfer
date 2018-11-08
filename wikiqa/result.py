@@ -6,7 +6,7 @@ import numpy as np
 def get_args():
     parser = argparse.ArgumentParser()
     home = os.path.expanduser("~")
-    data_dir = os.path.join(home, "data", "WikiQACorpus")
+    data_dir = os.path.join(".", "data", "WikiQACorpus")
     eval_dir = "out/wikiqa/basic-class"
     parser.add_argument('-d', "--data_dir", default=data_dir)
     parser.add_argument('-e', "--eval_dir", default=eval_dir)

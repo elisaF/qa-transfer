@@ -36,7 +36,7 @@ def get_word2vec(word_counter):
     glove_corpus = '6B'
     glove_vec_size= 100
     
-    glove_path = os.path.join("/home/sewon/data/glove", "glove.{}.{}d.txt".format(glove_corpus, glove_vec_size))
+    glove_path = os.path.join("./data/glove", "glove.{}.{}d.txt".format(glove_corpus, glove_vec_size))
     sizes = {'6B': int(4e5), '42B': int(1.9e6), '840B': int(2.2e6), '2B': int(1.2e6)}
     total = sizes[glove_corpus]
     word2vec_dict = {}

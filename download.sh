@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DATA_DIR=$HOME/data
+DATA_DIR=./data
 
 # Download SQuAD
 SQUAD_DIR=$DATA_DIR/squad

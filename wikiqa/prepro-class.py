@@ -15,9 +15,9 @@ def main():
 def get_args():
     parser = argparse.ArgumentParser()
     home = os.path.expanduser("~")
-    source_dir = os.path.join(home, "data", "WikiQACorpus")
+    source_dir = os.path.join(".", "data", "WikiQACorpus")
     target_dir = "data/wikiqa-class"
-    glove_dir = os.path.join(home, "data", "glove")
+    glove_dir = os.path.join(",", "data", "glove")
     parser.add_argument('-s', "--source_dir", default=source_dir)
     parser.add_argument('-t', "--target_dir", default=target_dir)
     parser.add_argument('-d', "--debug", action='store_true')
