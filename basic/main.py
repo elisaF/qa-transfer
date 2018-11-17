@@ -14,6 +14,7 @@ from basic.graph_handler import GraphHandler
 from basic.model import get_multi_gpu_models
 from basic.trainer import MultiGPUTrainer
 from basic.read_data import read_data, get_squad_data_filter, update_config
+from my.tensorflow import get_num_params
 
 
 def main(config):
@@ -80,6 +81,7 @@ def _train(config):
     pprint(config.__flags, indent=2)
     models = get_multi_gpu_models(config)
     model = models[0]
+    print("num params: {}".format(get_num_params()))
     trainer = MultiGPUTrainer(config, models)
     if config.model_name == 'basic':
         ThisEvaluator = MultiGPUF1Evaluator
@@ -201,6 +203,7 @@ def _forward(config):
     pprint(config.__flags, indent=2)
     models = get_multi_gpu_models(config)
     model = models[0]
+    print("num params: {}".format(get_num_params()))
     evaluator = ForwardEvaluator(config, model)
     graph_handler = GraphHandler(config, model)  # controls all tensors and variables in the graph, including loading /saving
 

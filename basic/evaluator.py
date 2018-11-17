@@ -132,8 +132,8 @@ class Evaluator(object):
         return e
 
     def get_evaluation_from_batches(self, sess, batches):
-        elist = [self.get_evaluation(sess, batch) for batch in batches]
-        return sum(elist)
+        e = sum(self.get_evaluation(sess, batch) for batch in batches)
+        return e
 
 
 class LabeledEvaluator(Evaluator):
@@ -444,10 +444,10 @@ class MultiGPUF1Evaluator(F1Evaluator):
         self.models = models
         with tf.name_scope("eval_concat"):
             N, M, JX = config.batch_size, config.max_num_sents, config.max_sent_size
-            self.yp = tf.concat(0, [padded_reshape(model.yp, [N, M, JX]) for model in models])
-            self.yp2 = tf.concat(0, [padded_reshape(model.yp2, [N, M, JX]) for model in models])
+            self.yp = tf.concat(axis=0, values=[padded_reshape(model.yp, [N, M, JX]) for model in models])
+            self.yp2 = tf.concat(axis=0, values=[padded_reshape(model.yp2, [N, M, JX]) for model in models])
             self.loss = tf.add_n([model.loss for model in models])/len(models)
-            self.p = tf.concat(0, [model.tensor_dict['a_u'] for model in models])
+            self.p = tf.concat(axis=0, values=[model.tensor_dict['a_u'] for model in models])
     def _split_batch(self, batches):
         idxs_list, data_sets = zip(*batches)
         idxs = sum(idxs_list, ())
@@ -469,9 +469,9 @@ class MultiGPUClassificationAccuracyEvaluator(ClassificationAccuracyEvaluator):
 
             C = 3 if config.data_dir.startswith('data/snli') else 2
             each_yp = lambda model: padded_reshape(model.yp0, [N, M, C])
-            self.yp = tf.concat(0, [each_yp(model) for model in models])
+            self.yp = tf.concat(axis=0, values=[each_yp(model) for model in models])
             self.loss = tf.add_n([model.loss for model in models])/len(models)
-            self.p = tf.concat(0, [model.tensor_dict['a_u'] for model in models])
+            self.p = tf.concat(axis=0, values=[model.tensor_dict['a_u'] for model in models])
     def _split_batch(self, batches):
         idxs_list, data_sets = zip(*batches)
         idxs = sum(idxs_list, ())
