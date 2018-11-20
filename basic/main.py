@@ -109,6 +109,7 @@ def _train(config):
 
         # occasional saving
         if global_step % config.save_period == 0:
+            print("Saving variables on step ", global_step)
             graph_handler.save(sess, global_step=global_step)
         if not config.eval:
             continue
@@ -126,6 +127,7 @@ def _train(config):
             """
             e_dev = evaluator.get_evaluation_from_batches(
                 sess, tqdm(dev_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps), total=num_steps))
+            print("Evaluated on dev at step ", global_step, ": ", e_dev)
             graph_handler.add_summaries(e_dev.summaries, global_step)
             if config.dump_eval:
                 graph_handler.dump_eval(e_dev)
@@ -133,6 +135,7 @@ def _train(config):
                 graph_handler.dump_answer(e_dev)
 
     if global_step % config.save_period != 0:
+        print("Final save at step ", global_step)
         graph_handler.save(sess, global_step=global_step)
 
 

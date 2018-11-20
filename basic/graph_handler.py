@@ -46,7 +46,7 @@ class GraphHandler(object):
                 name = var.name.split(":")[0]
                 if name in vars_:
                     del vars_[name]
-                vars_[ema.average_name(var)] = var
+                    vars_[ema.average_name(var)] = var
 
         saver = tf.train.Saver(vars_, max_to_keep=config.max_to_keep)
 
