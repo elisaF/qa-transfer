@@ -24,10 +24,10 @@ fi
 
 if [ $TASK = "finetune" ]
 then
-	python -m basic.cli --data_dir $DATA_DIR --out_base_dir out/$DATA --load_path $PRETR_DIR/save/$PRETR_FROM-$STEP --shared_path $PRETR_DIR/shared.json --load_trained_model --run_id $RUN_ID $ADD
+	python -u -m basic.cli --data_dir $DATA_DIR --out_base_dir out/$DATA --load_path $PRETR_DIR/save/$PRETR_FROM-$STEP --shared_path $PRETR_DIR/shared.json --load_trained_model --run_id $RUN_ID $ADD
 elif [ "$TASK" = "test" ]
 then
-	python -m basic.cli --mode test --data_dir $DATA_DIR --out_base_dir out/$DATA --shared_path $PRETR_FROM/shared.json --run_id $RUN_ID --load_step $STEP $ADD
+	python -u -m basic.cli --mode test --data_dir $DATA_DIR --out_base_dir out/$DATA --shared_path $PRETR_FROM/shared.json --run_id $RUN_ID --load_step $STEP $ADD
 else
 	echo "WRONG TASK. [finetune | test]"
 fi

@@ -5,17 +5,14 @@ import numpy as np
 from collections import Counter
 import nltk
 import os
-import six
 from tqdm import tqdm
 import re
 
-from IPython import embed
-
-from squad.utils import get_word_span, get_word_idx, process_tokens
 
 def main():
     args = get_args()
     prepro(args)
+
 
 def prepro(args):
     if not os.path.exists(args.target_dir):
@@ -25,9 +22,9 @@ def prepro(args):
     prepro_each(args, 'dev')
     prepro_each(args, 'test')
 
+
 def get_args():
     parser = argparse.ArgumentParser()
-    home = os.path.expanduser("~")
     source_dir = os.path.join(".", "data", "semeval")
     target_dir = "data/semeval"
     glove_dir = os.path.join(".", "data", "glove")
@@ -44,6 +41,7 @@ def get_args():
 def replace_sent(sent):
     return sent.replace("'''", '"').replace("```", '"').replace("''", '"').replace("``", '"') 
 
+
 def process_tokens(temp_tokens):
     tokens = []
     for token in temp_tokens:
@@ -55,11 +53,13 @@ def process_tokens(temp_tokens):
         tokens.extend(re.split("([{}])".format("".join(l)), token))
     return tokens
 
+
 def save(target_dir, data, shared, data_type):
     data_path = os.path.join(target_dir, "data_{}.json".format(data_type))
     shared_path = os.path.join(target_dir, "shared_{}.json".format(data_type))
     json.dump(data, open(data_path, 'w'))
     json.dump(shared, open(shared_path, 'w'))
+
 
 def get_word2vec(glove_dir, word_counter):
     glove_corpus = '6B'
@@ -86,11 +86,12 @@ def get_word2vec(glove_dir, word_counter):
     print("{}/{} of word vocab have corresponding vectors in {}".format(len(word2vec_dict), len(word_counter), glove_path))
     return word2vec_dict
 
+
 def get_exist_words():
     glove_corpus = '6B'
-    glove_vec_size= 100
+    glove_vec_size = 100
 
-    glove_path = os.path.join("/home/sewon/data/glove", "glove.{}.{}d.txt".format(glove_corpus, glove_vec_size))
+    glove_path = os.path.join("./data/glove", "glove.{}.{}d.txt".format(glove_corpus, glove_vec_size))
     sizes = {'6B': int(4e5), '42B': int(1.9e6), '840B': int(2.2e6), '2B': int(1.2e6)}
     total = sizes[glove_corpus]
     words = []
@@ -140,8 +141,7 @@ def prepro_each(args, data_type):
     print ("start for preprocessing for %s" % (data_type))
 
     q_len, x_len = [], []
-    multi_sent = 0 
- 
+
     for ai, (question, comment, answer, question_id, answer_id) in \
             tqdm(enumerate(zip(questions, comments, answers, question_ids, answer_ids))):
         qi = word_tokenize(question)
